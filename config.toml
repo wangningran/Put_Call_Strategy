@@ -1,0 +1,27 @@
+# 轮子策略配置。改完直接保存，下次运行生效。
+
+[account]
+account_size = 10000        # 账户总资金（美元）
+cash_reserve_pct = 0.20     # 永远保留 20% 现金不动，用来应对被行权、补救
+max_ticker_pct = 0.50       # 单只股票（Put 担保金 + 正股市值）最多占账户 50%
+fee_per_contract = 0.65     # 每张合约单边费用（佣金 + 监管费），到 moomoo App 里核实后修改
+risk_free_rate = 0.04
+
+[rules]
+dte_min = 25                # 到期天数范围
+dte_max = 45
+delta_min = 0.15            # |Delta| 范围，约等于被行权概率
+delta_max = 0.30
+min_open_interest = 100     # 未平仓量太小的合约成交差
+max_spread_pct = 0.15       # 买卖价差 / 中间价 上限
+avoid_earnings = true       # 到期前有财报的合约不选
+calls_above_cost_basis = true  # Covered Call 行权价不低于持股成本
+take_profit = 0.50          # 赚到权利金 50% 就提醒平仓
+roll_dte = 21               # 剩 21 天还没赚够，提醒处理
+loss_multiple = 2.0         # 亏损达到权利金 2 倍时提醒止损
+near_strike_pct = 0.02      # 现价距行权价 2% 以内时提醒
+
+[watchlist]
+# 1 万美元账户：一张 Put 需要 行权价 × 100 的现金，所以只能选股价大约 $50 以下的标的。
+# 筛选器会自动跳过买不起的。只放你愿意长期持有的公司或 ETF！
+tickers = ["SOFI", "F", "T", "BAC", "INTC", "PFE", "KO", "XLF", "SLV", "KMI", "VZ", "CSCO"]

@@ -1,0 +1,6 @@
+# personal trading records stay on your machine
+data/
+*.png
+backtest*.csv
+__pycache__/
+.pytest_cache/
