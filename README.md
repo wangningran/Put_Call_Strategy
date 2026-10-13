@@ -1,4 +1,4 @@
-# options-wheel：Sell Put / Covered Call 轮子策略工具
+# Put_Call_Strategy：Sell Put / Covered Call 轮子策略工具
 
 三个功能加一本交易日志，配合 moomoo **模拟盘**练习用：
 
@@ -16,7 +16,7 @@
 需要 Python 3.11 或更高版本。
 
 ```bash
-cd options-wheel
+cd Put_Call_Strategy
 python3 -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python -m pytest -q                                   # 应该全部通过
@@ -82,7 +82,7 @@ python -m wheel monitor --notify
 3. 用定时任务每个交易日自动跑（macOS / Linux 用 `crontab -e`；美东 15:30 约等于北京时间 03:30 或 04:30，看夏令时）：
 
 ```
-30 15 * * 1-5  cd /path/to/options-wheel && .venv/bin/python -m wheel monitor --notify
+30 15 * * 1-5  cd /path/to/Put_Call_Strategy && .venv/bin/python -m wheel monitor --notify
 ```
 
 ## 数据来源
