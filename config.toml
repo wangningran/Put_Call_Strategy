@@ -22,6 +22,15 @@ loss_multiple = 2.0         # 亏损达到权利金 2 倍时提醒止损
 near_strike_pct = 0.02      # 现价距行权价 2% 以内时提醒
 
 [watchlist]
-# 1 万美元账户：一张 Put 需要 行权价 × 100 的现金，所以只能选股价大约 $50 以下的标的。
-# 筛选器会自动跳过买不起的。只放你愿意长期持有的公司或 ETF！
-tickers = ["SOFI", "F", "T", "BAC", "INTC", "PFE", "KO", "XLF", "SLV", "KMI", "VZ", "CSCO"]
+# Picked 2026-10-14 from the 200 US stocks with the highest 3-month average volume:
+# price $8-60 (one contract ties up $800-6,000), market cap > $15B, profitable, IV not extreme.
+# Leaves out crypto miners, quantum, biotech, money-losing names and MLPs (K-1 tax forms).
+# The ETFs have no earnings, so they still have trades during earnings season.
+tickers = [
+  # steady large caps
+  "BAC", "VZ", "T", "PFE", "KMI", "KDP", "CMCSA", "VICI",
+  # more volatile, higher premium
+  "SOFI", "NU", "CMG", "MNST",
+  # ETFs
+  "XLF", "XLU", "FXI", "SLV",
+]

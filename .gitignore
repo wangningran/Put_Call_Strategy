@@ -1,5 +1,4 @@
-# personal trading records stay on your machine
-data/
+# data/ (the trade journal) is committed on purpose: the repo is private and cloud sessions are wiped
 *.png
 backtest*.csv
 __pycache__/
