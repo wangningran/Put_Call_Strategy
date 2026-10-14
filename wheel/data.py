@@ -2,9 +2,12 @@
 (a moomoo OpenD provider is the planned next one)."""
 
 from dataclasses import dataclass
+import logging
 from datetime import date, datetime
 
 import pandas as pd
+
+logging.getLogger("yfinance").setLevel(logging.CRITICAL)  # ETFs have no fundamentals; yfinance logs a 404 for each
 
 
 @dataclass
@@ -50,10 +53,10 @@ class YahooProvider:
         return self._tickers[ticker]
 
     def price(self, ticker):
-        hist = self._t(ticker).history(period="5d")
-        if hist.empty:
+        closes = self._t(ticker).history(period="5d")["Close"].dropna()  # today's row can be NaN pre-market
+        if closes.empty:
             raise RuntimeError(f"No price data for {ticker}")
-        return float(hist["Close"].iloc[-1])
+        return float(closes.iloc[-1])
 
     def expirations(self, ticker):
         return [datetime.strptime(s, "%Y-%m-%d").date() for s in self._t(ticker).options]
