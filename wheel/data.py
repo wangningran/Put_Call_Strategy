@@ -3,6 +3,7 @@
 
 from dataclasses import dataclass
 import logging
+import time
 from datetime import date, datetime
 
 import pandas as pd
@@ -58,8 +59,16 @@ class YahooProvider:
             raise RuntimeError(f"No price data for {ticker}")
         return float(closes.iloc[-1])
 
-    def expirations(self, ticker):
-        return [datetime.strptime(s, "%Y-%m-%d").date() for s in self._t(ticker).options]
+    def expirations(self, ticker, retries=3, wait=30):
+        # Yahoo answers a rate-limited request with an empty list, which would look like "no options"
+        for attempt in range(retries):
+            dates = self._t(ticker).options
+            if dates:
+                return [datetime.strptime(s, "%Y-%m-%d").date() for s in dates]
+            if attempt < retries - 1:
+                time.sleep(wait)
+                self._tickers.pop(ticker, None)
+        raise RuntimeError(f"No option expirations for {ticker} (Yahoo may be rate limiting)")
 
     def chain(self, ticker, expiry, kind):
         oc = self._t(ticker).option_chain(expiry.strftime("%Y-%m-%d"))
